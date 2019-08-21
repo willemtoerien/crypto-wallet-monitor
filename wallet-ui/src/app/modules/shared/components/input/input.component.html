@@ -1,0 +1,18 @@
+<div class="form-group row">
+  <label
+    *ngIf="!labelAsPlaceholder"
+    class="col-lg-3 col-form-label text-lg-right"
+    [htmlFor]="name"
+    [class.font-weight-bold]="isRequired"
+    [class.text-muted]="!isEnabled"
+  >
+    {{ label }}
+  </label>
+  <div [class.col-lg-9]="!labelAsPlaceholder" [class.col-lg-12]="labelAsPlaceholder">
+    <ng-content></ng-content>
+    <small *ngIf="description" [id]="name + '-help'" class="form-text text-muted">{{ description }}</small>
+    <div *ngIf="hasError" class="text-danger small">
+      <span *ngFor="let error of errors">{{ error.message }}</span>
+    </div>
+  </div>
+</div>

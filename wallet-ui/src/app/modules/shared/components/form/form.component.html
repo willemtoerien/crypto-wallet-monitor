@@ -1,0 +1,8 @@
+<form [formGroup]="formGroup" (ngSubmit)="submitted.emit()">
+  <fieldset [disabled]="formGroup['__isBusy'] || !isEnabled">
+    <ng-content></ng-content>
+  </fieldset>
+  <div *ngIf="formGroup['__error']" class="alert alert-danger mt-3 mb-0">
+    {{ errorMessage }}
+  </div>
+</form>

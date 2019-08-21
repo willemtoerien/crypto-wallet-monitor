@@ -1,0 +1,16 @@
+<div class="d-flex flex-column vh-100">
+  <div class="d-flex justify-content-center m-3 mb-auto">
+    <div class="central-card mt-md-5">
+      <div class="card-body">
+        <nav class="nav nav-pills card-header-pills justify-content-around mb-3">
+          <a class="nav-item nav-link" routerLink="/auth/sign-in" routerLinkActive="active" appIcon="login">Sign In</a>
+          <a class="nav-item nav-link" routerLink="/auth/sign-up" routerLinkActive="active" appIcon="account-plus">Sign Up</a>
+        </nav>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  <div class="my-5">
+    <app-logo-footer> </app-logo-footer>
+  </div>
+</div>

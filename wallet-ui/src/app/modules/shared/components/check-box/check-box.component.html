@@ -1,0 +1,12 @@
+<app-input [name]="name" [label]="label" [isEnabled]="isEnabled" [description]="description">
+  <div class="custom-control mt-2" [ngClass]="'custom-' + type">
+    <input
+      [id]="name"
+      [type]="inputType"
+      class="custom-control-input"
+      [formControl]="control"
+      [defaultChecked]="control.value"
+      (change)="control.setValue($event.target.checked)"
+    />
+    <label class="custom-control-label" [htmlFor]="name"><ng-content></ng-content></label></div
+></app-input>

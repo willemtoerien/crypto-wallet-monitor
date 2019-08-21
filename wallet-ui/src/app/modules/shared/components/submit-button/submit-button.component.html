@@ -1,0 +1,14 @@
+<div class="form-group row mb-0">
+  <div [ngClass]="isBlock || !offset ? 'col-lg-12' : 'offset-lg-3 col-lg-9'">
+    <button
+      class="btn"
+      [ngClass]="'btn-' + context"
+      [class.btn-block]="isBlock"
+      type="submit"
+      [disabled]="formGroup.invalid || formGroup['__isBusy']"
+    >
+      <ng-content></ng-content>
+      <span *ngIf="formGroup['__isBusy']" class="mdi mdi-loading mdi-spin ml-2"></span>
+    </button>
+  </div>
+</div>

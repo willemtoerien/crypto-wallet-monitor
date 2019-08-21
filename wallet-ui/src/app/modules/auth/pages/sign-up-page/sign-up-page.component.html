@@ -1,0 +1,19 @@
+<p appTitle="Sign Up" class="card-text text-center">Please sign up with your email address.</p>
+<app-form [formGroup]="formGroup" (submitted)="onSubmit()">
+  <app-text-box name="firstName" label="First Name" [labelAsPlaceholder]="true"></app-text-box>
+  <app-text-box name="lastName" label="Last Name" [labelAsPlaceholder]="true"></app-text-box>
+  <app-text-box
+    name="email"
+    label="Email"
+    type="email"
+    autoComplete="username"
+    [labelAsPlaceholder]="true"
+    [isEnabled]="!email"
+  ></app-text-box>
+  <app-text-box name="password" label="Password" type="password" autoComplete="current-password" [labelAsPlaceholder]="true"></app-text-box>
+  <app-submit-button [isBlock]="true">Sign Up</app-submit-button>
+</app-form>
+<p class="card-text mt-3">
+  By signing up you agree to our <a href="https://virtualassessors.com/legal/terms">terms and conditions</a>, and our
+  <a href="https://virtualassessors.com/legal/privacy">privacy policy.</a>
+</p>
