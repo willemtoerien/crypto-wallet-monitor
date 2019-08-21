@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Api", "Wallet.Api\Wallet.Api.csproj", "{C4B47807-EAFD-4FF6-B6FF-0340D3FD7D3A}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Wallet.Database", "Wallet.Database\Wallet.Database.sqlproj", "{E9B3EF82-2EF6-4DD8-ACC2-8601BD6641FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Api.UnitTests", "Wallet.Api.UnitTests\Wallet.Api.UnitTests.csproj", "{A05484A1-075A-40D0-B2FC-19C5B7CF3CAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,16 @@ Global
 		{C4B47807-EAFD-4FF6-B6FF-0340D3FD7D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4B47807-EAFD-4FF6-B6FF-0340D3FD7D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4B47807-EAFD-4FF6-B6FF-0340D3FD7D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9B3EF82-2EF6-4DD8-ACC2-8601BD6641FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9B3EF82-2EF6-4DD8-ACC2-8601BD6641FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9B3EF82-2EF6-4DD8-ACC2-8601BD6641FC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E9B3EF82-2EF6-4DD8-ACC2-8601BD6641FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9B3EF82-2EF6-4DD8-ACC2-8601BD6641FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9B3EF82-2EF6-4DD8-ACC2-8601BD6641FC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A05484A1-075A-40D0-B2FC-19C5B7CF3CAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05484A1-075A-40D0-B2FC-19C5B7CF3CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05484A1-075A-40D0-B2FC-19C5B7CF3CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05484A1-075A-40D0-B2FC-19C5B7CF3CAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

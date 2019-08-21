@@ -5,19 +5,52 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using VirtualAssessors.Api.Areas;
+using Wallet.Api.Areas.Users.Services;
+using Wallet.Api.DataAccess;
 
 namespace Wallet.Api
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IConfiguration configuration)
         {
+            Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public IConfiguration Configuration { get; } 
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services
+                .AddCors(options =>
+                {
+                    options.AddPolicy("CorsPolicy",
+                        builder => builder
+                            .WithOrigins(Configuration["AllowedOrigins"].Split(';'))
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials());
+                });
+
+            services
+                .AddDataAccess(Configuration)
+                .AddAreas(Configuration);
+
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.Converters.Add(new ToUserInfoConverter());
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -25,10 +58,12 @@ namespace Wallet.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.UseCors("CorsPolicy");
+
+            app
+                .UseAreas();
+
+            app.UseMvc();
         }
     }
 }

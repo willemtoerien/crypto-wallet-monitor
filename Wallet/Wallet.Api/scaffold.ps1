@@ -1,0 +1,1 @@
+Scaffold-DbContext "Server=.\sqlexpress;Database=wallet-model;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataAccess -Context WalletDbContext -Force
