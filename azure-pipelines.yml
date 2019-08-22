@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
@@ -17,11 +12,37 @@ steps:
   workingDirectory: './Wallet/Wallet.Api'
   displayName: 'dotnet build'
 
-- script: dotnet publish --output $(Build.ArtifactStagingDirectory)
+- script: dotnet publish --output $(Build.ArtifactStagingDirectory)/Api
   workingDirectory: './Wallet/Wallet.Api'
   displayName: 'dotnet publish'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/Wallet.Api
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/Api
+  displayName: Publishing
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  env:
+    BuildId: $(Build.BuildId)
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build:ssr
+  workingDirectory: './wallet-ui'
+  displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: '**/*.*'
+    flattenFolders: false
+    SourceFolder: '.wallet-ui/dist'
+    TargetFolder: $(Build.ArtifactStagingDirectory)/wallet-ui
+  displayName: 'Copy dist as artifacts'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/wallet-ui
   displayName: Publishing
