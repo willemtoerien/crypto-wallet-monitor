@@ -17,8 +17,9 @@ namespace Wallet.Api.Areas.Transactions
     {
         public static IServiceCollection AddTransactions(this IServiceCollection services, IConfiguration configuration)
         {
+            var section = configuration.GetSection("Areas:Transactions");
             services
-                .Configure<UsersOptions>(configuration.GetSection("Areas:Transactions"))
+                .Configure<TransactionsOptions>(section)
                 .AddTransient<TransactionsService>();
             return services;
         }

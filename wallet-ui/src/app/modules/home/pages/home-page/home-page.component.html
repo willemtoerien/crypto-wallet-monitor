@@ -1,1 +1,13 @@
-<p>home-page works!</p>
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Send Money</h4>
+    <hr />
+    <app-form [formGroup]="formGroup" (submitted)="onSubmit()">
+      <app-text-box name="email" label="Email" type="email" description="The person you want to send money to."></app-text-box>
+      <app-text-box name="purpose" label="Purpose" description="The purpose of the transaction."></app-text-box>
+      <app-text-box name="amount" label="Amount" type="number" description="The amount you wish to send."></app-text-box>
+      <hr />
+      <app-submit-button>Send</app-submit-button>
+    </app-form>
+  </div>
+</div>

@@ -55,9 +55,19 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
-
+import 'zone.js/dist/zone'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+import 'jquery';
+import 'popper.js';
+const origToString = Object.prototype.toString;
+Object.prototype.toString = function() {
+  'use strict'; // only necessary if you're not already running everything in strict mode anyohw.
+  if (this === null) {
+    return '[object Null]';
+  }
+  return origToString.call(this);
+};
+import 'bootstrap';

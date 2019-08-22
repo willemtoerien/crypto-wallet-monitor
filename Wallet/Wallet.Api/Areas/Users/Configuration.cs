@@ -23,7 +23,20 @@ namespace Wallet.Api.Areas.Users
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            });
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(usersOptions.AuthenticationTokenKey)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
             services
                 .Configure<UsersOptions>(section)
                 .AddTransient<Authenticator>()

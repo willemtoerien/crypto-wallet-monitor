@@ -1,17 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard, NonAuthGuard } from './modules/auth/guards';
+import { UserResolver } from './modules/auth/resolvers';
 
 const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
-  },
-  {
-    path: 'auth',
-    canActivate: [NonAuthGuard],
-    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
+    resolve: {
+      user: UserResolver
+    },
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'auth',
+        loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
+      }
+    ]
   }
 ];
 

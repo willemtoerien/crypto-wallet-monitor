@@ -7,6 +7,8 @@ namespace Wallet.Api.Areas.Transactions.Services
 {
     public class TransactionsOptions
     {
+        public int ThresholdBeginsAt { get; set; }
+
         public decimal AverageAmountThresholdPercentage { get; set; }
 
         public decimal PredefinedAmount { get; set; }

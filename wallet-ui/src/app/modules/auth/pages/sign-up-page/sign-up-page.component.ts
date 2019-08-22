@@ -39,8 +39,6 @@ export class SignUpPageComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.builder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
       email: new FormControl(this.email, {
         updateOn: 'blur',
         validators: [Validators.required, Validators.email],

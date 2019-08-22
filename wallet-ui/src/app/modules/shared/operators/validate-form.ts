@@ -1,7 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { throwError, EMPTY, ObservableInput } from 'rxjs';
-import { ModelStateDictionary } from 'src/app/services';
 
 export function validateForm<T, O extends ObservableInput<T>>(formGroup: FormGroup) {
   return catchError<T, O>(error => {
@@ -9,13 +8,13 @@ export function validateForm<T, O extends ObservableInput<T>>(formGroup: FormGro
       return throwError(error) as any;
     }
 
-    if (error.result) {
-      let modelState: ModelStateDictionary;
+    if (error.error) {
+      let modelState: any;
 
-      if (error.result.errors) {
+      if (error.error.errors) {
         modelState = error.result.errors;
       } else if (typeof error.result !== 'string') {
-        modelState = error.result;
+        modelState = error.error;
       }
 
       if (modelState) {

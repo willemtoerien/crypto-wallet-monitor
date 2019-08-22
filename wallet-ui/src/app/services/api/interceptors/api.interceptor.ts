@@ -12,21 +12,17 @@ export class ApiInterceptor implements HttpInterceptor {
   constructor(private authToken: AuthTokenService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!req.url.startsWith(environment.api)) {
-      return next.handle(req);
-    }
-
     const token = this.authToken.token;
     if (token) {
       req = req.clone({
-        url: req.url,
+        url: environment.api + req.url,
         setHeaders: {
           Authorization: `Bearer ${this.authToken.token}`
         }
       });
     } else {
       req = req.clone({
-        url: req.url
+        url: environment.api + req.url
       });
     }
 

@@ -1,5 +1,5 @@
 export interface PayRequest {
-  fromUserId?: number;
-  toUserId?: number;
+  email?: string;
   amount?: number;
+  purpose?: string;
 }

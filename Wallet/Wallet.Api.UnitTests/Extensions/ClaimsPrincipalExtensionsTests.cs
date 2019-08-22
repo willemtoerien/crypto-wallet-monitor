@@ -37,7 +37,7 @@ namespace Wallet.Api.UnitTests.Extensions
         [TestMethod]
         public void GetUserIdThrowsAuthenticationExceptionForInvalidClaimValue()
         {
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.NameIdentifier, "abc"), }, "DummyAuthType"));
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(new [] { new Claim(ClaimTypes.NameIdentifier, "abc"), }, "DummyAuthType"));
             var exception = Assert.ThrowsException<AuthenticationException>(() => principal.GetUserId());
             Assert.AreEqual(ClaimsPrincipalExtensions.InvalidClaimValue, exception.Message);
         }
@@ -45,7 +45,7 @@ namespace Wallet.Api.UnitTests.Extensions
         [TestMethod]
         public void GetUserIdIsRetrievedCorrectly()
         {
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.NameIdentifier, "1"), }, "DummyAuthType"));
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(new [] { new Claim(ClaimTypes.NameIdentifier, "1"), }, "DummyAuthType"));
             Assert.AreEqual(1, principal.GetUserId());
         }
     }

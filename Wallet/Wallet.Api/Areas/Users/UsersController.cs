@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VirtualAssessors.Api.Areas.Users.Requests;
 using Wallet.Api.Areas.Users.Models;
@@ -22,11 +23,13 @@ namespace Wallet.Api.Areas.Users
         public const string InvalidEmail = "The email provided does not exist.";
         public const string InvalidPassword = "The password provided is incorrect.";
 
+        private readonly ILogger<UsersController> logger;
         private readonly PasswordHasher hasher;
         private readonly Authenticator authenticator;
 
-        public UsersController(WalletDbContext db, PasswordHasher hasher, Authenticator authenticator) : base(db)
+        public UsersController(ILogger<UsersController> logger, WalletDbContext db, PasswordHasher hasher, Authenticator authenticator) : base(db)
         {
+            this.logger = logger;
             this.hasher = hasher;
             this.authenticator = authenticator;
         }
@@ -34,22 +37,27 @@ namespace Wallet.Api.Areas.Users
         [AllowAnonymous]
         [HttpPost("sign-up")]
         [ProducesResponseType(typeof(UserInfo), 200)]
-        [ProducesResponseType(typeof(ModelStateDictionary), 400)]
+        [ProducesResponseType(typeof(SerializableError), 400)]
         [ProducesResponseType(typeof(string), 400)]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
+            logger.LogInformation($"Signing up a new user with email '{request.Email}'...");
             var isEmailUsed = await Db.Users.AnyAsync(x => x.Email == request.Email);
             if (isEmailUsed)
             {
+                logger.LogInformation($"The email '{request.Email}' is already in use.");
                 ModelState.AddModelError(nameof(SignUpRequest.Email), EmailInUse);
                 return BadRequest(ModelState);
             }
 
+            logger.LogDebug("Creating a new user...");
             var user = new User();
             user.Email = request.Email;
             user.Password = hasher.Hash(request.Password);
+            user.Balance = 1000;
             await Db.Users.AddAsync(user);
 
+            logger.LogDebug("Saving the data changes...");
             await Db.SaveChangesAsync();
 
             authenticator.Authenticate(Response.Headers, user.UserId);
@@ -60,18 +68,21 @@ namespace Wallet.Api.Areas.Users
         [AllowAnonymous]
         [HttpPost("sign-in")]
         [ProducesResponseType(typeof(UserInfo), 200)]
-        [ProducesResponseType(typeof(ModelStateDictionary), 400)]
+        [ProducesResponseType(typeof(SerializableError), 400)]
         public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
         {
+            logger.LogInformation($"Signing ing a user with email '{request.Email}'...");
             var user = await Db.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
             if (user == null)
             {
+                logger.LogInformation($"The email '{request.Email}' does not exist.");
                 ModelState.AddModelError(nameof(SignInRequest.Email), InvalidEmail);
                 return BadRequest(ModelState);
             }
 
             if (!hasher.Verify(user.Password, request.Password))
             {
+                logger.LogInformation($"The password '{request.Password}' is incorrect.");
                 ModelState.AddModelError(nameof(SignInRequest.Email), InvalidPassword);
                 return BadRequest(ModelState);
             }
@@ -86,6 +97,7 @@ namespace Wallet.Api.Areas.Users
         [ProducesResponseType(typeof(string), 400)]
         public async Task<IActionResult> Get()
         {
+            logger.LogInformation("Retrieving the signed in user.");
             var user = await UserQuery.SingleOrDefaultAsync();
             if (user == null)
             {
@@ -99,6 +111,7 @@ namespace Wallet.Api.Areas.Users
         [ProducesResponseType(typeof(bool), 200)]
         public async Task<bool> IsEmailUnique([FromQuery] string email)
         {
+            logger.LogInformation($"Checking if '{email}' is unique...");
             var isEmailUsed = await Db.Users.AnyAsync(x => x.Email == email);
             return !isEmailUsed;
         }
