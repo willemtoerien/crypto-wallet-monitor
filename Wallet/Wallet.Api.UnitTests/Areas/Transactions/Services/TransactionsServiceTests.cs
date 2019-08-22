@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Wallet.Api.Areas.Transactions.Services;
-using Wallet.Api.Areas.Userss.Services;
+using Wallet.Api.Areas.Users.Services;
 using Wallet.Api.DataAccess;
 
 namespace Wallet.Api.UnitTests.Areas.Transactions.Services

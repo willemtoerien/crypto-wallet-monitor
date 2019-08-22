@@ -15,8 +15,6 @@ namespace Wallet.Api.Areas
     {
         public WalletDbContext Db { get; }
 
-        public bool IsAuthenticated => User.Identity.IsAuthenticated;
-
         public int UserId => User.GetUserId();
 
         public IQueryable<DataAccess.User> UserQuery => Db.Users.Where(x => x.UserId == UserId);

@@ -7,6 +7,9 @@ using Wallet.Api.Areas.Users.Models;
 
 namespace Wallet.Api.Areas.Users.Services
 {
+    /// <summary>
+    /// You don't want to send back the full user. Instead only certain properties of the User.
+    /// </summary>
     public class ToUserInfoConverter : JsonConverter
     {
         public override bool CanRead => false;

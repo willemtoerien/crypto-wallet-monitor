@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Wallet.Api.Areas.Userss.Services
+namespace Wallet.Api.Areas.Users.Services
 {
     public class UsersOptions
     {

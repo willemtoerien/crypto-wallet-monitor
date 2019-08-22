@@ -10,8 +10,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Wallet.Api.Areas.Users;
+using Wallet.Api.Areas.Users.Services;
 
-namespace Wallet.Api.Areas.Userss.Services
+namespace Wallet.Api.Areas.Users.Services
 {
     public class TokenProvider
     {

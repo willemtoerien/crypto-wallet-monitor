@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Logging;
 
-namespace Wallet.Api.Areas.Userss.Services
+namespace Wallet.Api.Areas.Users.Services
 {
     public class PasswordHasher
     {

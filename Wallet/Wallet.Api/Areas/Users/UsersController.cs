@@ -8,11 +8,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using VirtualAssessors.Api.Areas.Users.Requests;
 using Wallet.Api.Areas.Users.Models;
+using Wallet.Api.Areas.Users.Requests;
 using Wallet.Api.Areas.Users.Services;
 using Wallet.Api.DataAccess;
-using Wallet.Api.Areas.Userss.Services;
 
 namespace Wallet.Api.Areas.Users
 {

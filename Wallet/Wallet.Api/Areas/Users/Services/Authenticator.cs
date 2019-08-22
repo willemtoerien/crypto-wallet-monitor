@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 
-namespace Wallet.Api.Areas.Userss.Services
+namespace Wallet.Api.Areas.Users.Services
 {
     public class Authenticator
     {

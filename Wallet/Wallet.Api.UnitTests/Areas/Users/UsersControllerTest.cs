@@ -11,9 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using VirtualAssessors.Api.Areas.Users.Requests;
 using Wallet.Api.Areas.Users;
-using Wallet.Api.Areas.Userss.Services;
+using Wallet.Api.Areas.Users.Requests;
+using Wallet.Api.Areas.Users.Services;
 using Wallet.Api.DataAccess;
 
 namespace Wallet.Api.UnitTests.Areas.Users

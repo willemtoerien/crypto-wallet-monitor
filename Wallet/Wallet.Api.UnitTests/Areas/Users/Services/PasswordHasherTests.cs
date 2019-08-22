@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wallet.Api.Areas.Userss.Services;
+using Wallet.Api.Areas.Users.Services;
 
 namespace Wallet.Api.UnitTests.Areas.Users.Services
 {

@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Wallet.Api.Areas.Userss.Services;
+using Wallet.Api.Areas.Users.Services;
 
 namespace Wallet.Api.UnitTests.Areas.Users.Services
 {

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Wallet.Api.Areas.Transactions.Services;
-using Wallet.Api.Areas.Userss.Services;
+using Wallet.Api.Areas.Users.Services;
 
 namespace Wallet.Api.Areas.Transactions
 {
