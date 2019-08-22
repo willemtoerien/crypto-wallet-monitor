@@ -25,6 +25,7 @@ stages:
       inputs:
         command: build
         dockerfile: './Wallet/Wallet.Api/Dockerfile'
-        buildContext: '$(System.DefaultWorkingDirectory)/Wallet/Wallet.Api'
+        buildContext: './Wallet/Wallet.Api'
         tags: |
           $(tag)
+        
