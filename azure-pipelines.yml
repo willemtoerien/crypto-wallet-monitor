@@ -24,6 +24,7 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        dockerfile: '**/Dockerfile'
+        dockerfile: './Wallet/Wallet.Api/Dockerfile'
+        buildContext: '$(System.DefaultWorkingDirectory)/Wallet/Wallet.Api'
         tags: |
           $(tag)
