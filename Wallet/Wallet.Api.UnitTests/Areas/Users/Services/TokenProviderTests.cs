@@ -18,6 +18,7 @@ namespace Wallet.Api.UnitTests.Areas.Users.Services
         public void Initialize()
         {
             tokenProvider = new ServiceCollection()
+                .AddLogging()
                 .AddSingleton(sp =>
                 {
                     var optionsMoq = new Mock<IOptions<UsersOptions>>();

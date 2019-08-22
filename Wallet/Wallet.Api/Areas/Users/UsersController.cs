@@ -39,81 +39,117 @@ namespace Wallet.Api.Areas.Users
         [ProducesResponseType(typeof(UserInfo), 200)]
         [ProducesResponseType(typeof(SerializableError), 400)]
         [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
             logger.LogInformation($"Signing up a new user with email '{request.Email}'...");
-            var isEmailUsed = await Db.Users.AnyAsync(x => x.Email == request.Email);
-            if (isEmailUsed)
+            try
             {
-                logger.LogInformation($"The email '{request.Email}' is already in use.");
-                ModelState.AddModelError(nameof(SignUpRequest.Email), EmailInUse);
-                return BadRequest(ModelState);
+                var isEmailUsed = await Db.Users.AnyAsync(x => x.Email == request.Email);
+                if (isEmailUsed)
+                {
+                    logger.LogInformation($"The email '{request.Email}' is already in use.");
+                    ModelState.AddModelError(nameof(SignUpRequest.Email), EmailInUse);
+                    return BadRequest(ModelState);
+                }
+
+                logger.LogDebug("Creating a new user...");
+                var user = new User();
+                user.Email = request.Email;
+                user.Password = hasher.Hash(request.Password);
+                user.Balance = 1000;
+                await Db.Users.AddAsync(user);
+
+                logger.LogDebug("Saving the data changes...");
+                await Db.SaveChangesAsync();
+
+                authenticator.Authenticate(Response.Headers, user.UserId);
+
+                return Ok(user);
             }
-
-            logger.LogDebug("Creating a new user...");
-            var user = new User();
-            user.Email = request.Email;
-            user.Password = hasher.Hash(request.Password);
-            user.Balance = 1000;
-            await Db.Users.AddAsync(user);
-
-            logger.LogDebug("Saving the data changes...");
-            await Db.SaveChangesAsync();
-
-            authenticator.Authenticate(Response.Headers, user.UserId);
-
-            return Ok(user);
+            catch (Exception e)
+            {
+                logger.LogError("An unhandled exception was thrown.", e);
+                return StatusCode(500, "Unexpected Server Error occurred.");
+            }
         }
 
         [AllowAnonymous]
         [HttpPost("sign-in")]
         [ProducesResponseType(typeof(UserInfo), 200)]
         [ProducesResponseType(typeof(SerializableError), 400)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
         {
             logger.LogInformation($"Signing ing a user with email '{request.Email}'...");
-            var user = await Db.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
-            if (user == null)
+            try
             {
-                logger.LogInformation($"The email '{request.Email}' does not exist.");
-                ModelState.AddModelError(nameof(SignInRequest.Email), InvalidEmail);
-                return BadRequest(ModelState);
-            }
+                var user = await Db.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+                if (user == null)
+                {
+                    logger.LogInformation($"The email '{request.Email}' does not exist.");
+                    ModelState.AddModelError(nameof(SignInRequest.Email), InvalidEmail);
+                    return BadRequest(ModelState);
+                }
 
-            if (!hasher.Verify(user.Password, request.Password))
+                if (!hasher.Verify(user.Password, request.Password))
+                {
+                    logger.LogInformation($"The password '{request.Password}' is incorrect.");
+                    ModelState.AddModelError(nameof(SignInRequest.Email), InvalidPassword);
+                    return BadRequest(ModelState);
+                }
+
+                authenticator.Authenticate(Response.Headers, user.UserId);
+
+                return Ok(user);
+            }
+            catch (Exception e)
             {
-                logger.LogInformation($"The password '{request.Password}' is incorrect.");
-                ModelState.AddModelError(nameof(SignInRequest.Email), InvalidPassword);
-                return BadRequest(ModelState);
+                logger.LogError("An unhandled exception was thrown.", e);
+                return StatusCode(500, "Unexpected Server Error occurred.");
             }
-
-            authenticator.Authenticate(Response.Headers, user.UserId);
-
-            return Ok(user);
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(UserInfo), 200)]
         [ProducesResponseType(typeof(string), 400)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Get()
         {
             logger.LogInformation("Retrieving the signed in user.");
-            var user = await UserQuery.SingleOrDefaultAsync();
-            if (user == null)
+            try
             {
-                return BadRequest("User not found.");
+                var user = await UserQuery.SingleOrDefaultAsync();
+                if (user == null)
+                {
+                    return BadRequest("User not found.");
+                }
+                return Ok(user);
             }
-            return Ok(user);
+            catch (Exception e)
+            {
+                logger.LogError("An unhandled exception was thrown.", e);
+                return StatusCode(500, "Unexpected Server Error occurred.");
+            }
         }
 
         [AllowAnonymous]
         [HttpGet("email/unique")]
         [ProducesResponseType(typeof(bool), 200)]
-        public async Task<bool> IsEmailUnique([FromQuery] string email)
+        [ProducesResponseType(typeof(string), 500)]
+        public async Task<IActionResult> IsEmailUnique([FromQuery] string email)
         {
             logger.LogInformation($"Checking if '{email}' is unique...");
-            var isEmailUsed = await Db.Users.AnyAsync(x => x.Email == email);
-            return !isEmailUsed;
+            try
+            {
+                var isEmailUsed = await Db.Users.AnyAsync(x => x.Email == email);
+                return Ok(!isEmailUsed);
+            }
+            catch (Exception e)
+            {
+                logger.LogError("An unhandled exception was thrown.", e);
+                return StatusCode(500, "Unexpected Server Error occurred.");
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Wallet.Api.UnitTests.Areas.Transactions.Services
         public void Initialize()
         {
             var provider = new ServiceCollection()
+                .AddLogging()
                 .AddDbContext<WalletDbContext>(options => { options.UseInMemoryDatabase(Guid.NewGuid().ToString()); })
                 .AddSingleton(sp =>
                 {
@@ -45,16 +46,16 @@ namespace Wallet.Api.UnitTests.Areas.Transactions.Services
         public async Task IsAmountAboveThresholdAsyncEvaluatesCorrectly()
         {
             db.Transactions.AddRange(
-                new Transaction { TransactionId = Guid.NewGuid(), Amount = 50 },
-                new Transaction { TransactionId = Guid.NewGuid(), Amount = 50 },
-                new Transaction { TransactionId = Guid.NewGuid(), Amount = 50 }
+                new Transaction { FromUserId = 0, TransactionId = Guid.NewGuid(), Amount = 50 },
+                new Transaction { FromUserId = 0, TransactionId = Guid.NewGuid(), Amount = 50 },
+                new Transaction { FromUserId = 0, TransactionId = Guid.NewGuid(), Amount = 50 }
             );
             db.SaveChanges();
 
-            Assert.IsFalse(await service.IsAmountAboveThresholdAsync(55M));
-            Assert.IsFalse(await service.IsAmountAboveThresholdAsync(45M));
-            Assert.IsFalse(await service.IsAmountAboveThresholdAsync(60M));
-            Assert.IsTrue(await service.IsAmountAboveThresholdAsync(61M));
+            Assert.IsFalse(await service.IsAmountAboveThresholdAsync(0, 55M));
+            Assert.IsFalse(await service.IsAmountAboveThresholdAsync(0, 45M));
+            Assert.IsFalse(await service.IsAmountAboveThresholdAsync(0, 60M));
+            Assert.IsTrue(await service.IsAmountAboveThresholdAsync(0, 61M));
         }
     }
 }
