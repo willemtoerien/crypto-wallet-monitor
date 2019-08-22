@@ -25,7 +25,6 @@ stages:
       inputs:
         command: build
         dockerfile: './Wallet/Wallet.Api/Dockerfile'
-        arguments: '. -f'
         tags: |
           $(tag)
         
