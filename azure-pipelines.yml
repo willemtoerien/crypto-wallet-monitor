@@ -9,11 +9,19 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  buildConfiguration: 'Release'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+steps:
+- script: dotnet build --configuration $(buildConfiguration)
+  workingDirectory: './Wallet/Wallet.Api'
+  displayName: 'dotnet build'
+
+- script: dotnet publish --output $(Build.ArtifactStagingDirectory)
+  workingDirectory: './Wallet/Wallet.Api'
+  displayName: 'dotnet publish'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/Wallet.Api
+  displayName: Publishing
