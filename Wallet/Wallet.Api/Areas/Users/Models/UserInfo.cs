@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Wallet.Api.Areas.Users.Models
+﻿namespace Wallet.Api.Areas.Users.Models
 {
     public class UserInfo
     {

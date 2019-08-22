@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Wallet.Api.Areas.Transactions;
 using Wallet.Api.Areas.Users;
 
+// ReSharper disable once CheckNamespace - Ignore for configurations.
 namespace VirtualAssessors.Api.Areas
 {
     public static class Configuration

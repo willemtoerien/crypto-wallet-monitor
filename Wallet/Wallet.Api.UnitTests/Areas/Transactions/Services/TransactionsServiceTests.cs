@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +6,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Wallet.Api.Areas.Transactions.Services;
-using Wallet.Api.Areas.Users.Services;
 using Wallet.Api.DataAccess;
 
 namespace Wallet.Api.UnitTests.Areas.Transactions.Services

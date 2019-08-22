@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -77,7 +76,7 @@ namespace Wallet.Api.Areas.Transactions
                 var toUser = await Db.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
                 if (toUser == null)
                 {
-                    logger.LogInformation($"The email provided does not exist.");
+                    logger.LogInformation("The email provided does not exist.");
                     ModelState.AddModelError("Email", "The email provided does not exist.");
                     return BadRequest(ModelState);
                 }

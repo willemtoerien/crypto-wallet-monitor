@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Wallet.Api.DataAccess.Utilities
 {
+    /// <summary>
+    /// Used to singularize the database table names when scaffolding.
+    /// </summary>
     public class Pluralizer : IPluralizer
     {
         public string Pluralize(string identifier)

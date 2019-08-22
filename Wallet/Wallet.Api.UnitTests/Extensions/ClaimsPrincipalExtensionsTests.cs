@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Authentication;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wallet.Api.Extensions;
 
